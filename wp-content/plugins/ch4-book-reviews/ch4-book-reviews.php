@@ -97,4 +97,26 @@ function ch4_br_add_book_review_fields($book_review_id, $book_review){
     }
 }//end function
 
+
+add_filter( 'template_include' , 'ch4_br_template_include', 1 );
+
+function ch4_br_template_include($template_path){
+    
+    if ( get_post_type() == 'book_reviews' ) {//check if the post type is 'book_reviews'
+        if ( is_single() ) {//checks if the post type is single post type...
+            // checks if the file exists in the theme first,
+            // otherwise serve the file from the plugin
+            if ( $theme_file = locate_template( array ( 'single-book_reviews.php' ) ) ) {
+                $template_path = $theme_file;
+            } else {
+                $template_path = plugin_dir_path( __FILE__ ) . '/single-book_reviews.php';                      
+            }                   
+
+         }
+    }
+    
+    return $template_path;
+    
+}//end function
+
 ?>
